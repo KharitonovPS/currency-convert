@@ -58,7 +58,7 @@ public class SchemaUpdateService {
             }
 
         }
-        if (repo.count() != 0 && entity.get().getLastModifiedAt().isBefore(
+        if (repo.count() != 0 && !entity.get().getLastModifiedAt().isBefore(
                 Instant.now().minus(1, ChronoUnit.HOURS)
         )) {
             log.info("Data in schema \"currency_data\" is valid");

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.kps.currency.domain.CurrencyEntity;
 import org.kps.currency.repository.CurrencyRepo;
+import org.kps.currency.service.CurrencyConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,9 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
 
     @Autowired
     CurrencyRepo repo;
+
+    @Autowired
+    CurrencyConverterService service;
 
     @BeforeEach
     void setUp() {
