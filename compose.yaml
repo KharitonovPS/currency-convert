@@ -1,0 +1,14 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres-4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./pg_data3:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+    restart: unless-stopped

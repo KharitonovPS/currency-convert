@@ -1,0 +1,22 @@
+client:
+  properties:
+    url: https://openexchangerates.org/api/latest.json?
+    key: app_id=b4929433319542b1840bcde2b888ad09
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5435/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+    hibernate:
+      ddl-auto: validate
+update_service:
+  fixed_delay: 3600000
+  initial_delay: 10000
