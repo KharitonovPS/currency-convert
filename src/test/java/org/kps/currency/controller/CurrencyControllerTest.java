@@ -2,70 +2,71 @@ package org.kps.currency.controller;
 
 import org.junit.jupiter.api.Test;
 import org.kps.currency.domain.CurrencyEntity;
-import org.kps.currency.domain.dto.CurrencyRequestGetAllDTO;
-import org.kps.currency.domain.dto.CurrencyResponseDTO;
-import org.kps.currency.mapper.CurrencyResponseMapper;
-import org.kps.currency.service.CurrencyConverterService;
-import org.mockito.Mockito;
+import org.kps.currency.repository.CurrencyRepo;
+import org.kps.currency.validation.CodeISOValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Currency;
-import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest(CurrencyController.class)
+@Import({CodeISOValidator.class, CurrencyRepo.class})
 class CurrencyControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CurrencyConverterService service;
+    private CodeISOValidator validator;
 
     @MockBean
-    private CurrencyResponseMapper mapper;
+    private CurrencyRepo repo;
 
     @Test
     void serviceShouldReturnListOfAllQuotes() throws Exception {
-        CurrencyRequestGetAllDTO dto = new CurrencyRequestGetAllDTO();
-        dto.setQuote("USD");
+        CurrencyEntity entity = new CurrencyEntity(1L, "USD", 840, "Dollar", new BigDecimal("1"), Instant.now());
 
-        CurrencyResponseDTO usdEntity = new CurrencyResponseDTO();
-        usdEntity.setRate("1.09520028");
-        usdEntity.setName("US Dollar");
-        usdEntity.setNumCode(840);
-        usdEntity.setCharCode("USD");
-        usdEntity.setLastModifiedAt(Instant.now());
+        when(repo.findByCharCode("USD")).thenReturn(Optional.of(entity));
+        when(validator.isValid(any(), any())).thenReturn(true);
 
-        List<CurrencyResponseDTO> mockResponse = Arrays.asList(usdEntity);
-
-        when(service.getAllRatesForQuote(dto)).thenReturn(any());
-
-        this.mockMvc.perform(get("/api/v1/pairs")
-                .param("quote", "USD"))
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/v1/pairs")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"quote\" : \"USD\"}"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(contains("USD")
-            ));
+                .andExpect(status().isOk());
     }
 
     @Test
-    void convert() {
+    void serviceShouldConvertCurrencyForQuote() throws Exception {
+        CurrencyEntity entity = new CurrencyEntity(1L, "USD", 840, "Dollar", new BigDecimal("4"), Instant.now());
+        CurrencyEntity entity2 = new CurrencyEntity(2L, "EUR", 111, "EURO", new BigDecimal("2"), Instant.now());
+
+
+        when(repo.findByCharCode("USD")).thenReturn(Optional.of(entity));
+        when(repo.findByCharCode("EUR")).thenReturn(Optional.of(entity2));
+        when(validator.isValid(any(), any())).thenReturn(true);
+
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/v1/convert")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"base\" : \"USD\", \"quote\" :  \"EUR\", \"value\" :  10}"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
