@@ -10,7 +10,7 @@ import org.kps.currency.validation.CodeISO;
 @Getter
 @Setter
 @ToString
-public class CurrencyRequestConvertDTO {
+public class CurrencyRequestDTOConvertImpl implements CurrencyRequestDTO{
 
     @CodeISO(message = "The currency code must comply with the ISO 4217 standard")
     private String base;

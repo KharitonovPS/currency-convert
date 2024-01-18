@@ -1,8 +1,8 @@
 package org.kps.currency.service;
 
 import org.kps.currency.domain.CurrencyEntity;
-import org.kps.currency.domain.dto.CurrencyRequestConvertDTO;
-import org.kps.currency.domain.dto.CurrencyRequestGetAllDTO;
+import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
+import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
 import org.kps.currency.domain.dto.CurrencyResponseDTO;
 import org.kps.currency.mapper.CurrencyResponseMapper;
 import org.kps.currency.repository.CurrencyRepo;
@@ -28,7 +28,7 @@ public class CurrencyConverterService {
         this.mapper = mapper;
     }
 
-    public ResponseEntity<String> getRateForQuote(CurrencyRequestConvertDTO dto) {
+    public ResponseEntity<String> getRateForQuote(CurrencyRequestDTOConvertImpl dto) {
         CurrencyEntity base = repo.findByCharCode(dto.getBase()).orElseThrow();
         CurrencyEntity quote = repo.findByCharCode(dto.getQuote()).orElseThrow();
 
@@ -44,7 +44,7 @@ public class CurrencyConverterService {
         return ResponseEntity.ok(res1.stripTrailingZeros().toPlainString());
     }
 
-    public ResponseEntity<List<CurrencyResponseDTO>> getAllRatesForQuote(CurrencyRequestGetAllDTO dto) {
+    public ResponseEntity<List<CurrencyResponseDTO>> getAllRatesForQuote(CurrencyRequestDTOGetListImpl dto) {
 
         List<CurrencyEntity> entities = repo.findAll();
 

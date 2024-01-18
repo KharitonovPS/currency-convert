@@ -1,15 +1,12 @@
 package org.kps.currency.controller;
 
 import jakarta.validation.Valid;
-import org.kps.currency.domain.dto.CurrencyRequestConvertDTO;
-import org.kps.currency.domain.dto.CurrencyRequestGetAllDTO;
+import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
+import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
 import org.kps.currency.domain.dto.CurrencyResponseDTO;
 import org.kps.currency.service.CurrencyConverterService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,16 +20,16 @@ public class CurrencyController {
         this.currencyConverterService = currencyConverterService;
     }
 
-    @GetMapping("/pairs")
-    public ResponseEntity<List<CurrencyResponseDTO>> getListOfPairs(
-            @RequestBody @Valid CurrencyRequestGetAllDTO dto
+    @PostMapping("/pairs")
+    public ResponseEntity<List<CurrencyResponseDTO>> getListForQuote(
+            @RequestBody @Valid CurrencyRequestDTOGetListImpl dto
     ) {
         return currencyConverterService.getAllRatesForQuote(dto);
     }
 
-    @GetMapping("/convert")
+    @PostMapping("/convert")
     public ResponseEntity<String> convert(
-            @RequestBody @Valid CurrencyRequestConvertDTO dto
+            @RequestBody @Valid CurrencyRequestDTOConvertImpl dto
     ) {
         return currencyConverterService.getRateForQuote(dto);
     }

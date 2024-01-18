@@ -6,8 +6,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.kps.currency.domain.dto.CurrencyApiDTO;
-import org.kps.currency.domain.dto.CurrencyRequestConvertDTO;
-import org.kps.currency.domain.dto.CurrencyRequestGetAllDTO;
+import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
+import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -20,22 +20,22 @@ public class CurrencyAspect {
     @Around("Pointcuts.getMethods()")
     public Object aroundGetAllRatesAdvice(ProceedingJoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        CurrencyRequestGetAllDTO quoteDTO;
-        CurrencyRequestConvertDTO convertDTO;
+        CurrencyRequestDTOGetListImpl quoteDTO;
+        CurrencyRequestDTOConvertImpl convertDTO;
         if (methodSignature.getName().equals("getAllRatesForQuote")) {
             log.info("Trying to get all rates from database");
             Object[] arguments = joinPoint.getArgs();
             for (Object arg : arguments) {
-                if (arg instanceof CurrencyRequestGetAllDTO) {
-                    quoteDTO = (CurrencyRequestGetAllDTO) arg;
+                if (arg instanceof CurrencyRequestDTOGetListImpl) {
+                    quoteDTO = (CurrencyRequestDTOGetListImpl) arg;
                     log.info("Get all info about currency pairs for -> {} currency", quoteDTO.getQuote());
                 }
             }
         } else if (methodSignature.getName().equals("getRateForQuote")) {
             Object[] arguments = joinPoint.getArgs();
             for (Object arg : arguments) {
-                if (arg instanceof CurrencyRequestConvertDTO) {
-                    convertDTO = (CurrencyRequestConvertDTO) arg;
+                if (arg instanceof CurrencyRequestDTOConvertImpl) {
+                    convertDTO = (CurrencyRequestDTOConvertImpl) arg;
                     log.info("Convert {} {} to {}",
                             convertDTO.getValue(),
                             convertDTO.getBase(),

@@ -46,7 +46,6 @@ public class CurrencyClientImpl implements CurrencyClient {
                 .build();
     }
 
-
     public List<CurrencyEntity> getDataFromAPI() {
         HttpRequest getRequest = createGetRequest();
         String response = sendRequest(getRequest);
@@ -64,7 +63,7 @@ public class CurrencyClientImpl implements CurrencyClient {
                     .GET()
                     .build();
         } catch (URISyntaxException e) {
-            log.info(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
@@ -78,13 +77,13 @@ public class CurrencyClientImpl implements CurrencyClient {
             if (response.statusCode() == 200) {
                 return response.body();
             } else {
-                log.info("HTTP request failed with status code: {}, {}  ",
+                log.error("HTTP request failed with status code: {}, {}  ",
                         response.statusCode(), response.body());
                 throw new RuntimeException();
             }
 
         } catch (IOException | InterruptedException e) {
-            log.info(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }

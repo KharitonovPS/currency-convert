@@ -2,10 +2,9 @@ package org.kps.currency.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.kps.currency.client.CurrencyClientImpl;
 import org.kps.currency.domain.CurrencyEntity;
-import org.kps.currency.domain.dto.CurrencyRequestConvertDTO;
-import org.kps.currency.domain.dto.CurrencyRequestGetAllDTO;
+import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
+import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
 import org.kps.currency.repository.CurrencyRepo;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ class CurrencyConverterServiceTest {
 
     @Test
     void getRateForQuote() {
-        CurrencyRequestConvertDTO dto = new CurrencyRequestConvertDTO();
+        CurrencyRequestDTOConvertImpl dto = new CurrencyRequestDTOConvertImpl();
         dto.setBase("RUB");
         dto.setQuote("USD");
         dto.setValue(1000L);
@@ -63,7 +62,7 @@ class CurrencyConverterServiceTest {
 
     @Test()
     void getRateForQuoteWithException() {
-        CurrencyRequestConvertDTO dto = new CurrencyRequestConvertDTO();
+        CurrencyRequestDTOConvertImpl dto = new CurrencyRequestDTOConvertImpl();
         dto.setBase("RUB");
         dto.setQuote("ZZZ");
         dto.setValue(1000L);
@@ -84,7 +83,7 @@ class CurrencyConverterServiceTest {
 
     @Test
     void getAllRatesForQuote() {
-        CurrencyRequestGetAllDTO dto = new CurrencyRequestGetAllDTO();
+        CurrencyRequestDTOGetListImpl dto = new CurrencyRequestDTOGetListImpl();
         dto.setQuote("USD");
         CurrencyEntity usdEntity = new CurrencyEntity(2L, "USD", 840, "US Dollar",
                 new BigDecimal("1.09520028"), Instant.now());

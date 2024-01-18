@@ -39,11 +39,13 @@ public class SchemaInitService {
                 repo.saveAll(client.getDataFromAPI());
                 log.info("Data was save in \"currency_data\" schema, current size is -> {}.",
                         repo.count());
-                executorService.shutdown();
             } catch (RuntimeException e) {
-                log.info("The client failed to request data from API.");
+                log.error("Ошибка при инициализации схемы из API.", e);
+            } finally {
+                executorService.shutdown();
             }
         } else
             log.info("Values in \"currency_data\" schema already set, SchemaUpdateService will check it relevance");
+        executorService.shutdown();
     }
 }
