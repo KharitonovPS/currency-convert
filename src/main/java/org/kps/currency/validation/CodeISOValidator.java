@@ -6,11 +6,13 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
 import org.kps.currency.domain.CurrencyEntity;
 import org.kps.currency.repository.CurrencyRepo;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.util.TreeSet;
 
 @Component
+@DependsOn("schemaUpdateService")
 @Slf4j
 public class CodeISOValidator implements ConstraintValidator<CodeISO, Object> {
     private final CurrencyRepo currencyRepo;

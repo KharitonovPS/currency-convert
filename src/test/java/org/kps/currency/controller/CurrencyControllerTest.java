@@ -62,10 +62,11 @@ class CurrencyControllerTest {
     void serviceShouldConvertCurrencyForQuote() throws Exception {
         CurrencyEntity entity = new CurrencyEntity(1L, "USD", 840, "Dollar", new BigDecimal("4"), Instant.now());
         CurrencyEntity entity2 = new CurrencyEntity(2L, "EUR", 111, "EURO", new BigDecimal("2"), Instant.now());
-
+        List<CurrencyEntity> entities = List.of(entity, entity2);
 
         when(repo.findByCharCode("USD")).thenReturn(Optional.of(entity));
         when(repo.findByCharCode("EUR")).thenReturn(Optional.of(entity2));
+        when(repo.findAll()).thenReturn(entities);
         when(validator.isValid(any(), any())).thenReturn(true);
 
         this.mockMvc.perform(MockMvcRequestBuilders
