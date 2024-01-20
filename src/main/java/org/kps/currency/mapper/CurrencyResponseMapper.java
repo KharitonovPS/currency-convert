@@ -8,6 +8,7 @@ import org.kps.currency.domain.dto.CurrencyResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ public class CurrencyResponseMapper {
 
         dto.setName(entity.getName());
         dto.setCharCode(entity.getCharCode());
-        dto.setLastModifiedAt(entity.getLastModifiedAt());
+        dto.setLastModifiedAt(Timestamp.from(entity.getLastModifiedAt()));
         dto.setNumCode(entity.getNumCode());
 
         return dto;

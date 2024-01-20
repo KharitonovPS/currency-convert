@@ -33,6 +33,7 @@ public class CurrencyClientImpl implements CurrencyClient {
     private String key;
 
     private final ObjectMapper mapper;
+
     private final HttpClient client;
     private final CurrencyApiMapper currencyApiMapper;
 

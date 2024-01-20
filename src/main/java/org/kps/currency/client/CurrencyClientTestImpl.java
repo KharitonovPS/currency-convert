@@ -10,10 +10,13 @@ import org.kps.currency.domain.dto.CurrencyRequestDTO;
 import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
 import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
 import org.kps.currency.domain.dto.CurrencyResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,18 +27,16 @@ import java.time.Duration;
 import java.util.List;
 
 @Component
-@Getter
-@Setter
-@Slf4j
+@Data
 @RequiredArgsConstructor
+@Slf4j
 public class CurrencyClientTestImpl {
 
-    private  ObjectMapper mapper;
+    private ObjectMapper mapper;
 
-    private  String BASE_URI;
+    private String BASE_URI;
 
-    private  HttpClient client;
-
+    private HttpClient client;
     public CurrencyClientTestImpl(int port, int timeoutSeconds) {
         this.mapper = new ObjectMapper();
         BASE_URI = "http://localhost:" + port + "/api/v1";
@@ -98,6 +99,7 @@ public class CurrencyClientTestImpl {
 
     private List<CurrencyResponseDTO> deserializeList(String json) {
         try {
+            log.info("JSON to deserialize: {}", json);
             return mapper.readValue(
                     json,
                     new TypeReference<>() {
@@ -105,7 +107,7 @@ public class CurrencyClientTestImpl {
         } catch (JsonProcessingException e) {
             log.error("Failed to deserialize response: {} ",
                     e.getMessage());
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }

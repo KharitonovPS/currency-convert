@@ -9,23 +9,27 @@ import org.junit.jupiter.api.Test;
 import org.kps.currency.client.CurrencyClientImpl;
 import org.kps.currency.client.CurrencyClientTestImpl;
 import org.kps.currency.domain.CurrencyEntity;
+import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
+import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
+import org.kps.currency.domain.dto.CurrencyResponseDTO;
 import org.kps.currency.repository.CurrencyRepo;
 import org.kps.currency.service.CurrencyConverterService;
 import org.kps.currency.service.SchemaInitService;
 import org.kps.currency.service.SchemaUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.boot.test.web.server.LocalServerPort;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
-@SpringBootTest
 @RequiredArgsConstructor
 class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
 
@@ -41,7 +45,6 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
     @Autowired
     CurrencyClientImpl client;
 
-    @Autowired
     CurrencyClientTestImpl clientTest;
 
     @Autowired
@@ -60,7 +63,7 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
         log.info("Preloading " + repo.save(new CurrencyEntity(4L, "UAH", 980, "Ukrainian Hryvnia", new BigDecimal("41.39568254086164"), Instant.now())));
         log.info("Preloading " + repo.save(new CurrencyEntity(5L, "JPY", 392, "Japanese Yen", new BigDecimal("158.55104933532"), Instant.now())));
 
-        if (clientTest == null){
+        if (clientTest == null) {
             clientTest = new CurrencyClientTestImpl(port, 1);
         }
     }
@@ -76,9 +79,6 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
     }
 
     @Test
-    void contextLoad(){}
-
-    @Test
     void shouldGetCurrencyByCode() {
         CurrencyEntity entity = repo.findByCharCode("USD").orElseThrow();
 
@@ -90,12 +90,34 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
     @Disabled
     @Transactional
     void shouldUpdateRateAndTimestamp() {
-        CurrencyEntity entity = repo.findById(4L).orElseThrow();
+        CurrencyEntity entity = repo.findByCharCode("UAH").orElseThrow();
         log.info("Before update: {}", entity.getRate());
         repo.updateRateByCharCode("UAH", new BigDecimal(1), Instant.now());
 
-        CurrencyEntity entity2 = repo.findById(4L).orElseThrow();
+        CurrencyEntity entity2 = repo.findByCharCode("UAH").orElseThrow();
         log.info("After update: {}", entity2.getRate());
         assertEquals(new BigDecimal(1), entity2.getRate());
     }
+
+    @Test
+    void shouldGetListOfCurrencyFromController() {
+        CurrencyRequestDTOGetListImpl dto = new CurrencyRequestDTOGetListImpl();
+        dto.setQuote("USD");
+        ResponseEntity<List<CurrencyResponseDTO>> listForQuote = clientTest.getListForQuote(dto);
+        log.info(String.valueOf(listForQuote));
+        assertEquals(5, Objects.requireNonNull(listForQuote.getBody()).size());
+    }
+
+    @Test
+    void shouldConvertCurrency() {
+        CurrencyRequestDTOConvertImpl dto = new CurrencyRequestDTOConvertImpl();
+        dto.setQuote("RUB");
+        dto.setBase("USD");
+        dto.setValue(1000L);
+
+        ResponseEntity<String> value = clientTest.convert(dto);
+        log.info(value.toString());
+        assertTrue(Objects.requireNonNull(value.getBody()).contains("87960"));
+    }
+
 }

@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,6 +98,6 @@ class CurrencyConverterServiceTest {
 
         Mockito.verify(repo, Mockito.times(1)).findAll();
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(2, result.getBody().size());
+        assertEquals(2, Objects.requireNonNull(result.getBody()).size());
     }
 }
