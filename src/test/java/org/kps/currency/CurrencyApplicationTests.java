@@ -57,11 +57,16 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
     void setUp() {
         repo.deleteAll();
 
-        log.info("Preloading " + repo.save(new CurrencyEntity(1L, "USD", 840, "US Dollar", new BigDecimal("1.09520028"), Instant.now())));
-        log.info("Preloading " + repo.save(new CurrencyEntity(2L, "EUR", 978, "Euro", new BigDecimal("0.999999995661"), Instant.now())));
-        log.info("Preloading " + repo.save(new CurrencyEntity(3L, "RUB", 643, "Russian Ruble", new BigDecimal("96.33381334319916"), Instant.now())));
-        log.info("Preloading " + repo.save(new CurrencyEntity(4L, "UAH", 980, "Ukrainian Hryvnia", new BigDecimal("41.39568254086164"), Instant.now())));
-        log.info("Preloading " + repo.save(new CurrencyEntity(5L, "JPY", 392, "Japanese Yen", new BigDecimal("158.55104933532"), Instant.now())));
+        log.info("Preloading " + repo.save(new CurrencyEntity(1L, "USD", 840,
+                "US Dollar", new BigDecimal("1.09520028"), Instant.now())));
+        log.info("Preloading " + repo.save(new CurrencyEntity(2L, "EUR", 978,
+                "Euro", new BigDecimal("0.999999995661"), Instant.now())));
+        log.info("Preloading " + repo.save(new CurrencyEntity(3L, "RUB", 643,
+                "Russian Ruble", new BigDecimal("96.33381334319916"), Instant.now())));
+        log.info("Preloading " + repo.save(new CurrencyEntity(4L, "UAH", 980,
+                "Ukrainian Hryvnia", new BigDecimal("41.39568254086164"), Instant.now())));
+        log.info("Preloading " + repo.save(new CurrencyEntity(5L, "JPY", 392,
+                "Japanese Yen", new BigDecimal("158.55104933532"), Instant.now())));
 
         if (clientTest == null) {
             clientTest = new CurrencyClientTestImpl(port, 1);

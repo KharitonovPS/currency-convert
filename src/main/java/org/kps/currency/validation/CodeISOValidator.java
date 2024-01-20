@@ -1,17 +1,40 @@
 package org.kps.currency.validation;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.extern.slf4j.Slf4j;
+import org.kps.currency.domain.CurrencyEntity;
 import org.kps.currency.repository.CurrencyRepo;
 import org.springframework.stereotype.Component;
 
+import java.util.TreeSet;
+
 @Component
+@Slf4j
 public class CodeISOValidator implements ConstraintValidator<CodeISO, Object> {
-
     private final CurrencyRepo currencyRepo;
+    private final TreeSet<String> inMemoryCodes;
 
-    public CodeISOValidator(CurrencyRepo currencyRepo) {
+
+    public CodeISOValidator(CurrencyRepo currencyRepo, TreeSet<String> inMemoryCodes) {
         this.currencyRepo = currencyRepo;
+        this.inMemoryCodes = inMemoryCodes;
+    }
+
+    @PostConstruct
+    public void initTree() {
+        try {
+            log.info("Try to load all ISO code data to make \"inMemory\" set...");
+            inMemoryCodes.addAll(
+                    currencyRepo.findAll()
+                            .stream()
+                            .map(CurrencyEntity::getCharCode)
+                            .toList()
+            );
+        } catch (Exception e) {
+            log.error("Can not load ISO codes from repo -> {}", e.getMessage(), e);
+        }
     }
 
     @Override
@@ -33,7 +56,7 @@ public class CodeISOValidator implements ConstraintValidator<CodeISO, Object> {
         }
         if (input instanceof String) {
             if (((String) input).matches("^[A-Z]{3}$"))
-                return currencyRepo.findByCharCode((String) input).isPresent();
+                return inMemoryCodes.contains((String) input);
         }
         return false;
     }
