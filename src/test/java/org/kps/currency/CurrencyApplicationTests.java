@@ -1,5 +1,6 @@
 package org.kps.currency;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
@@ -18,7 +19,6 @@ import org.kps.currency.service.SchemaInitService;
 import org.kps.currency.service.SchemaUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +53,9 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
 
     @Autowired
     SchemaInitService initService;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @BeforeEach
     void setUp() {
@@ -92,19 +95,17 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
         assertEquals("US Dollar", entity.getName());
     }
 
-    //TODO find bug
     @Test
-    @Disabled
     @Transactional
     void shouldUpdateRateAndTimestamp() {
         CurrencyEntity entity = repo.findByCharCode("USD").orElseThrow();
         log.info("Before update: {}", entity.getRate());
 
         repo.updateRateByCharCode("USD", new BigDecimal(1L), Instant.now());
-
+        entityManager.clear();
         CurrencyEntity entity2 = repo.findByCharCode("USD").orElseThrow();
         log.info("After update: {}", entity2.getRate());
-        assertEquals(new BigDecimal(1), entity2.getRate());
+        assertEquals(BigDecimal.ONE, entity2.getRate().stripTrailingZeros());
     }
 
     @Test

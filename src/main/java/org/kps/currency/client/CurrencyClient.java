@@ -6,7 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public interface CurrencyClient {
-    default public String sendRequest(HttpClient client, HttpRequest request) {
+    default String sendRequest(HttpClient client, HttpRequest request) {
         try {
             HttpResponse<String> response = client.send(
                     request,

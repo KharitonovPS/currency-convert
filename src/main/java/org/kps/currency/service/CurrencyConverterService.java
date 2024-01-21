@@ -32,19 +32,20 @@ public class CurrencyConverterService {
         CurrencyEntity base = repo.findByCharCode(dto.getBase()).orElseThrow();
         CurrencyEntity quote = repo.findByCharCode(dto.getQuote()).orElseThrow();
 
-        BigDecimal coefficient = new BigDecimal(1);
-        BigDecimal multiplyValue = new BigDecimal(dto.getValue());
+        BigDecimal coefficient = BigDecimal.ONE;
 
-        BigDecimal dividend = coefficient.divide(base.getRate(), 8, RoundingMode.HALF_UP);
-        BigDecimal usdRate = dividend.multiply(multiplyValue);
+        BigDecimal usdRate = coefficient.divide(base.getRate(), 8, RoundingMode.HALF_UP)
+                .multiply(new BigDecimal(dto.getValue()));
 
-        BigDecimal result = quote.getRate().multiply(usdRate);
-        BigDecimal res1 = result.divide(BigDecimal.valueOf(1), 2, RoundingMode.HALF_UP);
+        BigDecimal result = quote.getRate()
+                .multiply(usdRate).setScale(2, RoundingMode.HALF_UP);
 
-        return ResponseEntity.ok(res1.stripTrailingZeros().toPlainString());
+        return ResponseEntity.ok(result.toPlainString());
     }
 
-    public ResponseEntity<List<CurrencyResponseDTO>> getAllRatesForQuote(CurrencyRequestDTOGetListImpl dto) {
+    public ResponseEntity<List<CurrencyResponseDTO>> getAllRatesForQuote(
+            CurrencyRequestDTOGetListImpl dto
+    ) {
 
         List<CurrencyEntity> entities = repo.findAll();
 
@@ -54,14 +55,13 @@ public class CurrencyConverterService {
                 .findFirst()
                 .orElseThrow();
 
-        BigDecimal coefficient = new BigDecimal(1);
-        BigDecimal usdRate = coefficient.divide(requestedEntity.getRate(), 8, RoundingMode.HALF_UP);
+        BigDecimal usdRate = BigDecimal.ONE.divide(requestedEntity.getRate(), 8, RoundingMode.HALF_UP);
 
         List<CurrencyResponseDTO> responseDTOS = entities
                 .stream()
                 .peek(entity -> entity
-                        .setRate(
-                                (usdRate.multiply(entity.getRate()))
+                        .setRate(usdRate.multiply(entity.getRate())
+                                .setScale(2,RoundingMode.HALF_UP)
                         ))
                 .map(mapper::entityToResponseDTO)
                 .sorted(Comparator.comparing(CurrencyResponseDTO::getCharCode))
