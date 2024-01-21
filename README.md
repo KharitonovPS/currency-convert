@@ -46,7 +46,7 @@ Docker
 ## Running the Project
 
 ### Clone the repository to your local machine:
-git clone <[repository-url](https://github.com/KharitonovPS/currency-convert)>
+git clone https://github.com/KharitonovPS/currency-convert
 
 ### Navigate to the project directory:
 cd currency-converter
