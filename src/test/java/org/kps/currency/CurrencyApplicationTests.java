@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -108,6 +107,7 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
 
     }
 
+    //TODO fix bug, fail if start all at once, pass if start single
     @Test
     @Transactional
     @Tag("repository")

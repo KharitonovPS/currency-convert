@@ -51,8 +51,6 @@ class CurrencyConverterServiceTest {
 
         ResponseEntity<String> rateForQuote = converterService.getRateForQuote(dto);
 
-        assertNotNull(rateForQuote);
-
         assertAll(
                 () -> assertNotNull(rateForQuote),
                 () -> Mockito.verify(repo, Mockito.times(1)).findByCharCode("RUB"),
