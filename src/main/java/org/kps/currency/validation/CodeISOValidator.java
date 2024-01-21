@@ -27,7 +27,7 @@ public class CodeISOValidator implements ConstraintValidator<CodeISO, Object> {
     @PostConstruct
     public void initTree() {
         try {
-            log.info("Try to load all ISO code data to make \"inMemory\" set...");
+            log.info("Try to load all ISO code values to make \"inMemory\" set...");
             inMemoryCodes.addAll(
                     currencyRepo.findAll()
                             .stream()

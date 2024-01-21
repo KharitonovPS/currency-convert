@@ -40,7 +40,7 @@ public class SchemaInitService {
                 log.info("Data was save in \"currency_data\" schema, current size is -> {}.",
                         repo.count());
             } catch (RuntimeException e) {
-                log.error("Ошибка при инициализации схемы из API.", e);
+                log.error("Error from API response -> {}", e.getMessage(), e);
             } finally {
                 executorService.shutdown();
             }

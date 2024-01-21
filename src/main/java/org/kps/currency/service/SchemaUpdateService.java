@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Slf4j
@@ -39,7 +40,7 @@ public class SchemaUpdateService {
 
         log.info("Rates will be update every -> {} millis.", fixedDelay);
 
-        Optional<CurrencyEntity> entity = repo.findById(1L);
+        Optional<CurrencyEntity> entity = repo.findById(new Random().nextLong(100));
         if (entity.isPresent() &&
                 entity.get().getLastModifiedAt().isBefore(
                         Instant.now().minus(1, ChronoUnit.HOURS)
@@ -63,7 +64,7 @@ public class SchemaUpdateService {
         )) {
             log.info("Data in schema \"currency_data\" is valid");
         } else
-            log.error("Schema \"currency_data\" is not valid");
+            log.error("Data in schema \"currency_data\" is not valid");
     }
 }
 

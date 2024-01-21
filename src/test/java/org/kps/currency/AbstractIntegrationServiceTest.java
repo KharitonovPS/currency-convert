@@ -16,10 +16,7 @@ import java.util.Arrays;
 public class AbstractIntegrationServiceTest {
 
 
-    public static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer<>(
-            "postgres:alpine"
-    )
-            .withExposedPorts(5432);
+    public static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer<>("postgres:alpine").withExposedPorts(5432);
 
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -31,12 +28,9 @@ public class AbstractIntegrationServiceTest {
 
             String[] variables = {"spring.jpa.hibernate.ddl-auto=update",
 
-                    "spring.datasource.url=" + POSTGRES.getJdbcUrl(),
-                    "spring.datasource.username=" + POSTGRES.getUsername(),
-                    "spring.datasource.password=" + POSTGRES.getPassword(),
+                    "spring.datasource.url=" + POSTGRES.getJdbcUrl(), "spring.datasource.username=" + POSTGRES.getUsername(), "spring.datasource.password=" + POSTGRES.getPassword(),
 
-                    "clients.dictionary-client.host=" + "http://localhost:8080"
-            };
+                    "clients.dictionary-client.host=" + "http://localhost:8080"};
 
             logger.info("initialize: переопределяем проперти={}", Arrays.toString(variables));
 
