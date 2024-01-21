@@ -9,7 +9,7 @@ import org.kps.currency.validation.CodeISO;
 @Getter
 @Setter
 @ToString
-public class CurrencyRequestDTOGetListImpl implements CurrencyRequestDTO{
+public class CurrencyRequestDTOGetListImpl implements CurrencyRequestDTO {
 
     @CodeISO
     private String quote;

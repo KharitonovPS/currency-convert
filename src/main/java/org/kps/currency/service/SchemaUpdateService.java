@@ -44,7 +44,7 @@ public class SchemaUpdateService {
         if (entity.isPresent() &&
                 entity.get().getLastModifiedAt().isBefore(
                         Instant.now().minus(1, ChronoUnit.HOURS)
-                )){
+                )) {
             log.info("Need to update data, send request to API...");
             try {
                 List<CurrencyEntity> currencyList = client.getDataFromAPI();

@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = CodeISOValidator.class)
 @Documented
-public @interface CodeISO  {
+public @interface CodeISO {
     String message() default "The input must be CodeISO";
 
     Class<?>[] groups() default {};

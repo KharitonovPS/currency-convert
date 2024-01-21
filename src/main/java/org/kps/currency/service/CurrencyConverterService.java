@@ -61,7 +61,7 @@ public class CurrencyConverterService {
                 .stream()
                 .peek(entity -> entity
                         .setRate(usdRate.multiply(entity.getRate())
-                                .setScale(2,RoundingMode.HALF_UP)
+                                .setScale(2, RoundingMode.HALF_UP)
                         ))
                 .map(mapper::entityToResponseDTO)
                 .sorted(Comparator.comparing(CurrencyResponseDTO::getCharCode))
