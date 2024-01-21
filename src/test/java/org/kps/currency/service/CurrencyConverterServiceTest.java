@@ -1,5 +1,6 @@
 package org.kps.currency.service;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.kps.currency.domain.CurrencyEntity;
@@ -22,6 +23,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("fast")
+@Tag("service")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class CurrencyConverterServiceTest {
@@ -31,7 +34,6 @@ class CurrencyConverterServiceTest {
 
     @Autowired
     private CurrencyConverterService converterService;
-
 
     @Test
     void getRateForQuote() {

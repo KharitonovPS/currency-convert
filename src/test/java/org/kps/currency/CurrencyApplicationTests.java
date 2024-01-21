@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 
+@Tag("slow")
 @Slf4j
 @RequiredArgsConstructor
 class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
@@ -79,93 +80,101 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
         POSTGRES.stop();
     }
 
-    @Test
+    @Nested
+    @DisplayName("Test custom query functionality")
     @Tag("repository")
-    void initializeRepo() {
-        List<CurrencyEntity> all = repo.findAll();
-        assertAll(
-                () -> assertThat(repo).isNotNull(),
-                () -> assertThat(all).hasSize(2),
-                () -> assertThat(all).usingElementComparatorIgnoringFields("lastModifiedAt", "rate")
-                        .containsExactlyInAnyOrder(USD, EUR)
-        );
+    class RepositoryTests{
+        @Test
+        void initializeRepo() {
+            List<CurrencyEntity> all = repo.findAll();
+            assertAll(
+                    () -> assertThat(repo).isNotNull(),
+                    () -> assertThat(all).hasSize(2),
+                    () -> assertThat(all).usingElementComparatorIgnoringFields("lastModifiedAt", "rate")
+                            .containsExactlyInAnyOrder(USD, EUR)
+            );
+        }
+
+        @Test
+        void shouldGetCurrencyByCode() {
+            CurrencyEntity entity = repo.findByCharCode("USD").orElseThrow();
+
+            assertAll(
+                    () -> assertThat(entity).isNotNull(),
+                    () -> assertThat(entity.getNumCode()).isEqualTo(840),
+                    () -> assertThat(entity.getName()).isEqualTo("US Dollar")
+            );
+        }
+
+        //TODO fix bug, fail if start all at once, pass if start single
+        @Test
+        @Transactional
+        @Disabled
+        @Tag("repository")
+        void shouldUpdateRateAndTimestamp() {
+            repo.updateRateByCharCode("USD", BigDecimal.ONE, Instant.now());
+            entityManager.clear();
+            CurrencyEntity currency = repo.findByCharCode("USD").orElseThrow();
+            assertAll(
+                    () -> assertThat(currency.getRate().stripTrailingZeros()).isEqualTo("1"),
+                    () -> assertThat(currency.getLastModifiedAt()).isGreaterThan(USD.getLastModifiedAt())
+            );
+        }
     }
 
-    @Test
-    @Tag("repository")
-    void shouldGetCurrencyByCode() {
-        CurrencyEntity entity = repo.findByCharCode("USD").orElseThrow();
 
-        assertAll(
-                () -> assertThat(entity).isNotNull(),
-                () -> assertThat(entity.getNumCode()).isEqualTo(840),
-                () -> assertThat(entity.getName()).isEqualTo("US Dollar")
-        );
 
-    }
-
-    //TODO fix bug, fail if start all at once, pass if start single
-    @Test
-    @Transactional
-    @Disabled
-    @Tag("repository")
-    void shouldUpdateRateAndTimestamp() {
-        repo.updateRateByCharCode("USD", BigDecimal.ONE, Instant.now());
-        entityManager.clear();
-        CurrencyEntity currency = repo.findByCharCode("USD").orElseThrow();
-        assertAll(
-                () -> assertThat(currency.getRate().stripTrailingZeros()).isEqualTo("1"),
-                () -> assertThat(currency.getLastModifiedAt()).isGreaterThan(USD.getLastModifiedAt())
-        );
-    }
-
-    @Test
+    @Nested
+    @DisplayName("Test currency controller functionality")
     @Tag("controller")
-    void shouldGetListOfCurrencyFromController() {
-        CurrencyRequestDTOGetListImpl dto = new CurrencyRequestDTOGetListImpl();
-        dto.setQuote("USD");
+    class ControllerTests{
+        @Test
+        void shouldGetListOfCurrencyFromController() {
+            CurrencyRequestDTOGetListImpl dto = new CurrencyRequestDTOGetListImpl();
+            dto.setQuote("USD");
 
-        ResponseEntity<List<CurrencyResponseDTO>> listForQuote = clientTest.getListForQuote(dto);
+            ResponseEntity<List<CurrencyResponseDTO>> listForQuote = clientTest.getListForQuote(dto);
 
-        assertAll(
-                () -> assertThat(listForQuote).isNotNull(),
-                () -> assertThat(listForQuote.getBody()).isNotEmpty(),
-                () -> assertThat(listForQuote.getBody()).hasSize(2),
-                () -> assertThat(listForQuote.getStatusCode().toString()).isEqualTo("200 OK")
-        );
+            assertAll(
+                    () -> assertThat(listForQuote).isNotNull(),
+                    () -> assertThat(listForQuote.getBody()).isNotEmpty(),
+                    () -> assertThat(listForQuote.getBody()).hasSize(2),
+                    () -> assertThat(listForQuote.getStatusCode().toString()).isEqualTo("200 OK")
+            );
+        }
+
+        @Test
+        void shouldConvertCurrency() {
+            CurrencyRequestDTOConvertImpl dto = new CurrencyRequestDTOConvertImpl();
+            dto.setQuote("EUR");
+            dto.setBase("USD");
+            dto.setValue(1000L);
+
+            ResponseEntity<String> value = clientTest.convert(dto);
+
+            assertAll(
+                    () -> assertThat(value).isNotNull(),
+                    () -> assertThat(value.getStatusCode().toString()).isEqualTo("200 OK"),
+                    () -> assertThat(value.getBody()).isEqualTo("913.07")
+            );
+        }
+
+        @Test
+        @Tag("validation")
+        void throwExceptionIfISOCodeIsNotValid() {
+            CurrencyRequestDTOGetListImpl dto = new CurrencyRequestDTOGetListImpl();
+            dto.setQuote("ZZZ");
+
+            assertAll(
+                    () -> {
+                        RuntimeException validationEx = assertThrows(
+                                RuntimeException.class, () -> clientTest.getListForQuote(dto)
+                        );
+                        assertTrue(validationEx.getMessage().contains("The input must be CodeISO"));
+                    },
+                    () -> assertThrows(RuntimeException.class, () -> clientTest.getListForQuote(null))
+            );
+        }
     }
 
-    @Test
-    @Tag("controller")
-    void shouldConvertCurrency() {
-        CurrencyRequestDTOConvertImpl dto = new CurrencyRequestDTOConvertImpl();
-        dto.setQuote("EUR");
-        dto.setBase("USD");
-        dto.setValue(1000L);
-
-        ResponseEntity<String> value = clientTest.convert(dto);
-
-        assertAll(
-                () -> assertThat(value).isNotNull(),
-                () -> assertThat(value.getStatusCode().toString()).isEqualTo("200 OK"),
-                () -> assertThat(value.getBody()).isEqualTo("913.07")
-        );
-    }
-
-    @Test
-    @Tag("controller")
-    void throwExceptionIfISOCodeIsNotValid() {
-        CurrencyRequestDTOGetListImpl dto = new CurrencyRequestDTOGetListImpl();
-        dto.setQuote("ZZZ");
-
-        assertAll(
-                () -> {
-                    RuntimeException validationEx = assertThrows(
-                            RuntimeException.class, () -> clientTest.getListForQuote(dto)
-                    );
-                    assertTrue(validationEx.getMessage().contains("The input must be CodeISO"));
-                },
-                () -> assertThrows(RuntimeException.class, () -> clientTest.getListForQuote(null))
-        );
-    }
 }

@@ -1,5 +1,6 @@
 package org.kps.currency.controller;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.kps.currency.domain.CurrencyEntity;
 import org.kps.currency.repository.CurrencyRepo;
@@ -24,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+@Tag("fast")
+@Tag("controller")
 @WebMvcTest(CurrencyController.class)
 @Import({CodeISOValidator.class, CurrencyRepo.class})
 @ComponentScan(basePackages = {"org.kps.currency", "org.kps.currency.controller"})
@@ -37,6 +40,7 @@ class CurrencyControllerTest {
 
     @MockBean
     private CurrencyRepo repo;
+
 
     @Test
     void serviceShouldReturnListOfAllQuotes() throws Exception {
