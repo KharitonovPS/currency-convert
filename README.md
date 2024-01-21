@@ -42,40 +42,38 @@ Before running the project, ensure that you have the following prerequisites ins
 
 Java Development Kit (JDK)
 Docker
-Running the Project
 
-Clone the repository to your local machine:
+## Running the Project
+
+### Clone the repository to your local machine:
 git clone <[repository-url](https://github.com/KharitonovPS/currency-convert)>
 
-Navigate to the project directory:
+### Navigate to the project directory:
 cd currency-converter
 
-Run the Docker Compose to start the PostgreSQL database:
+### Run the Docker Compose to start the PostgreSQL database:
 docker-compose up -d
 
-Run the Spring Boot application using the Gradle wrapper:
+### Run the Spring Boot application using the Gradle wrapper:
 ./gradlew clean build
 ./gradlew bootRun
 
 The application should now be running, and you can access it at http://localhost:8080.
 
-Running Tests
+### Running Tests
 To run the tests, execute the following command:
 ./gradlew test
 
-Configuration
+## Configuration
 The main application configuration is located in the src/main/resources/application.yaml file.
 Customize the configurations, such as the database connection and external API properties, as needed.
 
-External API Client
-The org.kps.currency.client package contains the currency client (CurrencyClientImpl) responsible for fetching data from an external API (https://openexchangerates.org).
+## External API Client
+client package contains the currency client (CurrencyClientImpl) responsible for fetching data from an external API (https://openexchangerates.org).
 
-Database Migration
+## Database Migration
 The database migration is managed using Flyway. The migration script (currency_data.sql) is located in the src/main/resources directory.
-
-License
-This project is licensed under the MIT License.
 
 Feel free to contribute to the project and make it even better! If you encounter any issues or have suggestions, please create an issue on the repository.
 
-Thank you for using the Currency Converter project!
+## Thank you for using the Currency Converter project!
