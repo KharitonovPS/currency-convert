@@ -1,4 +1,4 @@
-package org.kps.currency.domain;
+package org.kps.currency.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

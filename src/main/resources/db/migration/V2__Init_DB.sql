@@ -1,4 +1,4 @@
-create table currency_data
+create table if not exists currency_data
 (
     currency_code    varchar(3) unique,
     numeric_code     integer unique,

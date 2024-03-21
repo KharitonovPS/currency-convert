@@ -3,7 +3,7 @@ package org.kps.currency.service;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.kps.currency.client.CurrencyClientImpl;
-import org.kps.currency.repository.CurrencyRepo;
+import org.kps.currency.domain.repository.CurrencyRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;

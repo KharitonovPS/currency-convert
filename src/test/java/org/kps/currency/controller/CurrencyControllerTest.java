@@ -2,8 +2,8 @@ package org.kps.currency.controller;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.kps.currency.domain.CurrencyEntity;
-import org.kps.currency.repository.CurrencyRepo;
+import org.kps.currency.domain.entity.CurrencyEntity;
+import org.kps.currency.domain.repository.CurrencyRepo;
 import org.kps.currency.validation.CodeISOValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

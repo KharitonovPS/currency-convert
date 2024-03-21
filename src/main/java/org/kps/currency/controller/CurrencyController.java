@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
 import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
 import org.kps.currency.domain.dto.CurrencyResponseDTO;
-import org.kps.currency.service.CurrencyConverterService;
+import org.kps.currency.domain.service.CurrencyConverterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

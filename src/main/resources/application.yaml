@@ -17,6 +17,11 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: validate
+  flyway:
+    validate-on-migrate: false
 update_service:
   fixed_delay: 3600000
   initial_delay: 10000
+tg:
+  bot_token: 7060104792:AAHUmMq2AY8UsPKhvHVP-1H4Bm-bRko4Om0
+  bot_name: CurrencyBot

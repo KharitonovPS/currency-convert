@@ -1,9 +1,9 @@
-package org.kps.currency.mapper;
+package org.kps.currency.domain.mapper;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.kps.currency.domain.CurrencyEntity;
+import org.kps.currency.domain.entity.CurrencyEntity;
 import org.kps.currency.domain.dto.CurrencyResponseDTO;
 import org.springframework.stereotype.Component;
 

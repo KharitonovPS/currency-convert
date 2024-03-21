@@ -4,8 +4,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
-import org.kps.currency.domain.CurrencyEntity;
-import org.kps.currency.repository.CurrencyRepo;
+import org.kps.currency.domain.entity.CurrencyEntity;
+import org.kps.currency.domain.repository.CurrencyRepo;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 

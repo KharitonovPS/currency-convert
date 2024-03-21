@@ -1,6 +1,6 @@
-package org.kps.currency.repository;
+package org.kps.currency.domain.repository;
 
-import org.kps.currency.domain.CurrencyEntity;
+import org.kps.currency.domain.entity.CurrencyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
