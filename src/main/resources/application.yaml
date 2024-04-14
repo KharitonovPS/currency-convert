@@ -5,9 +5,9 @@ client:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5435/postgres
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: pg
+    password: 123
   jpa:
     properties:
       hibernate:
@@ -16,12 +16,12 @@ spring:
         use_sql_comments: true
         format_sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
   flyway:
     validate-on-migrate: false
 update_service:
   fixed_delay: 3600000
-  initial_delay: 10000
+  initial_delay: 120000
 tg:
   bot_token: 7060104792:AAHUmMq2AY8UsPKhvHVP-1H4Bm-bRko4Om0
   bot_name: CurrencyBot

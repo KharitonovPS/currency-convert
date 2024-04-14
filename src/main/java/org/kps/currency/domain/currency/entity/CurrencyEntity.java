@@ -1,4 +1,4 @@
-package org.kps.currency.domain.entity;
+package org.kps.currency.domain.currency.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class CurrencyEntity {
     @Column(name = "numeric_code", unique = true, length = 5)
     private int numCode;
 
-    @Column(name = "display_name", length = 30)
+    @Column(name = "display_name", length = 64)
     private String name;
 
     @Column(name = "rate_to_USD", precision = 38, scale = 10)

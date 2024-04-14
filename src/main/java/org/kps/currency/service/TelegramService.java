@@ -1,12 +1,15 @@
 package org.kps.currency.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.kps.currency.domain.service.CurrencyConverterService;
+import org.kps.currency.domain.currency.dto.CurrencyRequestDTOConvertImpl;
+import org.kps.currency.domain.currency.dto.CurrencyRequestDTOGetListImpl;
+import org.kps.currency.domain.currency.service.CurrencyConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -30,8 +33,6 @@ public class TelegramService extends TelegramLongPollingBot {
                             You can ask for a quote from 164 currency pairs and receive a valid result.
                             
                             Type /start to see the welcome message.
-                            
-                            Type /list to get all available quotes to request.
                             
                             Type /convert to convert currency pair and sum.
                             
@@ -60,6 +61,17 @@ public class TelegramService extends TelegramLongPollingBot {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
 
+            if (messageText.contains("/convert") && update.hasCallbackQuery()){
+
+                CallbackQuery callbackQuery = update.getCallbackQuery();
+                String data = callbackQuery.getData();
+                handleCallbackQuery(chatId, data);
+
+
+            }
+
+
+
             switch (messageText) {
                 case "/start":
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
@@ -73,6 +85,14 @@ public class TelegramService extends TelegramLongPollingBot {
 
         }
 
+    }
+
+    private void handleCallbackQuery(long chatId, String data) {
+        String messageToSend = "You clicked on button with data: " + data;
+
+        var getRates = service.getRateForQuote(new CurrencyRequestDTOConvertImpl(data,"USD", 1L));
+        sendMessage(chatId, getRates.toString());
+        sendMessage(chatId, messageToSend);
     }
 
     private void startCommandReceived(long chatId, String name) {

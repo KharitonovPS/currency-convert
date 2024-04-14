@@ -1,11 +1,11 @@
-package org.kps.currency.domain.service;
+package org.kps.currency.domain.currency.service;
 
-import org.kps.currency.domain.entity.CurrencyEntity;
-import org.kps.currency.domain.dto.CurrencyRequestDTOConvertImpl;
-import org.kps.currency.domain.dto.CurrencyRequestDTOGetListImpl;
-import org.kps.currency.domain.dto.CurrencyResponseDTO;
-import org.kps.currency.domain.mapper.CurrencyResponseMapper;
-import org.kps.currency.domain.repository.CurrencyRepo;
+import org.kps.currency.domain.currency.mapper.CurrencyResponseMapper;
+import org.kps.currency.domain.currency.repository.CurrencyRepo;
+import org.kps.currency.domain.currency.entity.CurrencyEntity;
+import org.kps.currency.domain.currency.dto.CurrencyRequestDTOConvertImpl;
+import org.kps.currency.domain.currency.dto.CurrencyRequestDTOGetListImpl;
+import org.kps.currency.domain.currency.dto.CurrencyResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

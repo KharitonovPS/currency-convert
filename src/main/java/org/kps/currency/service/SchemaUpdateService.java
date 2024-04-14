@@ -2,8 +2,8 @@ package org.kps.currency.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.kps.currency.client.CurrencyClientImpl;
-import org.kps.currency.domain.entity.CurrencyEntity;
-import org.kps.currency.domain.repository.CurrencyRepo;
+import org.kps.currency.domain.currency.entity.CurrencyEntity;
+import org.kps.currency.domain.currency.repository.CurrencyRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

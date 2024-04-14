@@ -1,4 +1,4 @@
-package org.kps.currency.domain.dto;
+package org.kps.currency.domain.currency.dto;
 
 import lombok.Getter;
 import lombok.Setter;

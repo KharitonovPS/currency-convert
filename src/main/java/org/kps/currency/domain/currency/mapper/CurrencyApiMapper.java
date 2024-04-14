@@ -1,10 +1,10 @@
-package org.kps.currency.domain.mapper;
+package org.kps.currency.domain.currency.mapper;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.kps.currency.domain.entity.CurrencyEntity;
-import org.kps.currency.domain.dto.CurrencyApiDTO;
+import org.kps.currency.domain.currency.dto.CurrencyApiDTO;
+import org.kps.currency.domain.currency.entity.CurrencyEntity;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

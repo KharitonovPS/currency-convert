@@ -4,11 +4,13 @@ import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
-import org.kps.currency.domain.entity.CurrencyEntity;
-import org.kps.currency.domain.repository.CurrencyRepo;
+import org.kps.currency.domain.currency.entity.CurrencyEntity;
+import org.kps.currency.domain.currency.repository.CurrencyRepo;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 @Component
@@ -16,10 +18,10 @@ import java.util.TreeSet;
 @Slf4j
 public class CodeISOValidator implements ConstraintValidator<CodeISO, Object> {
     private final CurrencyRepo currencyRepo;
-    private final TreeSet<String> inMemoryCodes;
+    private final HashSet<String> inMemoryCodes;
 
 
-    public CodeISOValidator(CurrencyRepo currencyRepo, TreeSet<String> inMemoryCodes) {
+    public CodeISOValidator(CurrencyRepo currencyRepo, HashSet<String> inMemoryCodes) {
         this.currencyRepo = currencyRepo;
         this.inMemoryCodes = inMemoryCodes;
     }
@@ -58,7 +60,7 @@ public class CodeISOValidator implements ConstraintValidator<CodeISO, Object> {
         }
         if (input instanceof String) {
             if (((String) input).matches("^[A-Z]{3}$"))
-                return inMemoryCodes.contains((String) input);
+                return inMemoryCodes.contains(input);
         }
         return false;
     }
