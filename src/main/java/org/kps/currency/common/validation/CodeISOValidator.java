@@ -1,4 +1,4 @@
-package org.kps.currency.validation;
+package org.kps.currency.common.validation;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintValidator;
@@ -9,9 +9,7 @@ import org.kps.currency.domain.currency.repository.CurrencyRepo;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.TreeSet;
 
 @Component
 @DependsOn("schemaUpdateService")

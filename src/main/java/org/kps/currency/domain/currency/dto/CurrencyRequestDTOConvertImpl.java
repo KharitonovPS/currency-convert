@@ -3,7 +3,7 @@ package org.kps.currency.domain.currency.dto;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.*;
-import org.kps.currency.validation.CodeISO;
+import org.kps.currency.common.validation.CodeISO;
 
 @Getter
 @Setter

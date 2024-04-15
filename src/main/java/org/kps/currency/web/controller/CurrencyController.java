@@ -1,4 +1,4 @@
-package org.kps.currency.controller;
+package org.kps.currency.web.controller;
 
 import jakarta.validation.Valid;
 import org.kps.currency.domain.currency.dto.CurrencyRequestDTOConvertImpl;

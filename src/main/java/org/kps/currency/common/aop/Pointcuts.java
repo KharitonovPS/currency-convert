@@ -1,4 +1,4 @@
-package org.kps.currency.aop;
+package org.kps.currency.common.aop;
 
 import org.aspectj.lang.annotation.Pointcut;
 
