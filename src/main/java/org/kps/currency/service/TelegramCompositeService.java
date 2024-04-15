@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kps.currency.config.TelegramConfig;
 import org.kps.currency.domain.currency.dto.CurrencyRequestDTOConvertImpl;
 import org.kps.currency.domain.currency.service.CurrencyConverterService;
+import org.kps.currency.domain.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -21,16 +22,18 @@ import static org.kps.currency.common.constants.TelegramConstants.HELP_MESSAGE;
 
 @Slf4j
 @Service
-public class TelegramService extends TelegramLongPollingBot {
+public class TelegramCompositeService extends TelegramLongPollingBot {
 
     private final CurrencyConverterService service;
+    private final UserService userService;
 
     private final TelegramConfig config;
 
     @Autowired
-    public TelegramService(CurrencyConverterService service, TelegramConfig config) {
+    public TelegramCompositeService(CurrencyConverterService service, UserService userService, TelegramConfig config) {
         super(config.getBotToken());
         this.service = service;
+        this.userService = userService;
         this.config = config;
     }
 
@@ -51,11 +54,16 @@ public class TelegramService extends TelegramLongPollingBot {
                 CallbackQuery callbackQuery = update.getCallbackQuery();
                 String data = callbackQuery.getData();
                 handleCallbackQuery(chatId, data);
+
+
             }
+
 
 
             switch (messageText) {
                 case "/start":
+                    userService.registerUser(update.getMessage());
+
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
                     log.info("Telegram bot replied to user, {}", update.getMessage().getChat().getFirstName());
                     break;
