@@ -4,7 +4,7 @@ package org.kps.currency.domain.currency.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.kps.currency.validation.CodeISO;
+import org.kps.currency.common.validation.CodeISO;
 
 @Data
 @AllArgsConstructor

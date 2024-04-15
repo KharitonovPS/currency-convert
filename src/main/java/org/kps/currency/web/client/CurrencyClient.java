@@ -1,4 +1,4 @@
-package org.kps.currency.client;
+package org.kps.currency.web.client;
 
 import java.io.IOException;
 import java.net.http.HttpClient;

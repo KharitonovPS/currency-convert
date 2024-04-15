@@ -1,4 +1,4 @@
-package org.kps.currency.validation;
+package org.kps.currency.common.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

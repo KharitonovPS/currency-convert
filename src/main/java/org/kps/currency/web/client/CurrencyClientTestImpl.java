@@ -1,4 +1,4 @@
-package org.kps.currency.client;
+package org.kps.currency.web.client;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;

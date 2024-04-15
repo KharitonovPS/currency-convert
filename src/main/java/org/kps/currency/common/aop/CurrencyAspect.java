@@ -1,4 +1,4 @@
-package org.kps.currency.aop;
+package org.kps.currency.common.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrencyAspect {
 
-    @Around("Pointcuts.getMethods()")
+    @Around("org.kps.currency.common.aop.Pointcuts.getMethods()")
     public Object aroundGetAllRatesAdvice(ProceedingJoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         CurrencyRequestDTOGetListImpl quoteDTO;
@@ -55,7 +55,7 @@ public class CurrencyAspect {
         return result;
     }
 
-    @Around("Pointcuts.mappingMethod()")
+    @Around("org.kps.currency.common.aop.Pointcuts.mappingMethod()")
     public Object aroundMappingMethodAdvice(ProceedingJoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         if (methodSignature.getName().equals("currencyDtoToEntity")) {

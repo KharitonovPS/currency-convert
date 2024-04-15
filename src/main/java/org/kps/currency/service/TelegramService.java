@@ -1,11 +1,10 @@
 package org.kps.currency.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.kps.currency.config.TelegramConfig;
 import org.kps.currency.domain.currency.dto.CurrencyRequestDTOConvertImpl;
-import org.kps.currency.domain.currency.dto.CurrencyRequestDTOGetListImpl;
 import org.kps.currency.domain.currency.service.CurrencyConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,40 +17,26 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.kps.currency.common.constants.TelegramConstants.HELP_MESSAGE;
+
 @Slf4j
 @Service
 public class TelegramService extends TelegramLongPollingBot {
 
+    private final CurrencyConverterService service;
+
+    private final TelegramConfig config;
 
     @Autowired
-    private CurrencyConverterService service;
-    private static final String BOT_TOKEN = "7060104792:AAHUmMq2AY8UsPKhvHVP-1H4Bm-bRko4Om0";
-
-    private static final String HELP_MESSAGE =
-            """
-                            This bot is created to convert currency. 
-                            You can ask for a quote from 164 currency pairs and receive a valid result.
-                            
-                            Type /start to see the welcome message.
-                            
-                            Type /convert to convert currency pair and sum.
-                            
-                            Type /quote to see the quote for 1$ from the requested currency.
-                            
-                            Type /help to see this message.
-                            
-                    """;
-
-    @Value("${tg.bot_name}")
-    public String botName;
-
-    public TelegramService() {
-        super(BOT_TOKEN);
+    public TelegramService(CurrencyConverterService service, TelegramConfig config) {
+        super(config.getBotToken());
+        this.service = service;
+        this.config = config;
     }
 
     @Override
     public String getBotUsername() {
-        return botName;
+        return config.getBotName();
     }
 
     @Override
@@ -61,26 +46,26 @@ public class TelegramService extends TelegramLongPollingBot {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
 
-            if (messageText.contains("/convert") && update.hasCallbackQuery()){
+            if (messageText.contains("/convert")) {
 
                 CallbackQuery callbackQuery = update.getCallbackQuery();
                 String data = callbackQuery.getData();
                 handleCallbackQuery(chatId, data);
-
-
             }
-
 
 
             switch (messageText) {
                 case "/start":
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
+                    log.info("Telegram bot started");
                     break;
                 case "/help":
                     sendMessage(chatId, HELP_MESSAGE);
+                    log.info("Telegram bot help");
                     break;
                 default:
                     sendMessage(chatId, "Sorry, command not found");
+                    log.info("Telegram default message send");
             }
 
         }
@@ -90,7 +75,7 @@ public class TelegramService extends TelegramLongPollingBot {
     private void handleCallbackQuery(long chatId, String data) {
         String messageToSend = "You clicked on button with data: " + data;
 
-        var getRates = service.getRateForQuote(new CurrencyRequestDTOConvertImpl(data,"USD", 1L));
+        var getRates = service.getRateForQuote(new CurrencyRequestDTOConvertImpl(data, "USD", 1L));
         sendMessage(chatId, getRates.toString());
         sendMessage(chatId, messageToSend);
     }
