@@ -57,7 +57,7 @@ public class TelegramService extends TelegramLongPollingBot {
             switch (messageText) {
                 case "/start":
                     startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
-                    log.info("Telegram bot started");
+                    log.info("Telegram bot replied to user, {}", update.getMessage().getChat().getFirstName());
                     break;
                 case "/help":
                     sendMessage(chatId, HELP_MESSAGE);
