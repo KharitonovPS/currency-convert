@@ -28,6 +28,16 @@
         <appender-ref ref="FILE-ROLLING"/>
     </root>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %p %logger{1} [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
     <root level="info">
         <appender-ref ref="FILE-ROLLING"/>
     </root>
