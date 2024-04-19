@@ -1,0 +1,7 @@
+#create image from dockerfile
+sudo docker build -t bot-app .
+
+#run app in docker image
+sudo docker run bot-app
+
+#set up CI/CD on GitHub actions with gradle
