@@ -63,6 +63,6 @@ jobs:
           image: kharitonovps/bot-app
           tags: latest
           registry: docker.io
-          dockerfile: /Docker/Dockerfile.ci
+          dockerfile: Docker/Dockerfile.ci
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
