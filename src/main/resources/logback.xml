@@ -1,44 +1,44 @@
-<configuration>
+<!--<configuration>-->
 
-    <property name="HOME_LOG" value="/var/log/org.kps/tg-simple-bot/app.log"/>
+<!--    <property name="HOME_LOG" value="/var/log/org.kps/tg-simple-bot/app.log"/>-->
 
-    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HOME_LOG}</file>
+<!--    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${HOME_LOG}</file>-->
 
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>/var/log/org.kps/tg-curr-bot/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
-            <!-- each archived file, size max 10MB -->
-            <maxFileSize>10MB</maxFileSize>
-            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
-            <totalSizeCap>1GB</totalSizeCap>
-            <!-- 60 days to keep -->
-            <maxHistory>60</maxHistory>
-        </rollingPolicy>
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>/var/log/org.kps/tg-curr-bot/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>-->
+<!--            &lt;!&ndash; each archived file, size max 10MB &ndash;&gt;-->
+<!--            <maxFileSize>10MB</maxFileSize>-->
+<!--            &lt;!&ndash; total size of all archive files, if total size > 20GB, it will delete old archived file &ndash;&gt;-->
+<!--            <totalSizeCap>1GB</totalSizeCap>-->
+<!--            &lt;!&ndash; 60 days to keep &ndash;&gt;-->
+<!--            <maxHistory>60</maxHistory>-->
+<!--        </rollingPolicy>-->
 
-        <encoder>
-            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %5p %t %c{2}:%L - %m%n</pattern>
+<!--        <encoder>-->
+<!--            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %5p %t %c{2}:%L - %m%n</pattern>-->
 
-        </encoder>
-    </appender>
+<!--        </encoder>-->
+<!--    </appender>-->
 
-    <logger name="org.kps.SpringCurrencyBot" level="debug" additivity="false">
-        <appender-ref ref="FILE-ROLLING"/>
-    </logger>
+<!--    <logger name="org.kps.SpringCurrencyBot" level="debug" additivity="false">-->
+<!--        <appender-ref ref="FILE-ROLLING"/>-->
+<!--    </logger>-->
 
-    <root level="info">
-        <appender-ref ref="FILE-ROLLING"/>
-    </root>
+<!--    <root level="info">-->
+<!--        <appender-ref ref="FILE-ROLLING"/>-->
+<!--    </root>-->
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %5p %t %c{2}:%L - %m%n</pattern>
+<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %5p %t %c{2}:%L - %m%n</pattern>-->
 
-        </encoder>
-    </appender>
+<!--        </encoder>-->
+<!--    </appender>-->
 
-    <!-- Добавил root элемент для вывода в консоль -->
-    <root level="info">
-        <appender-ref ref="STDOUT"/>
-    </root>
+<!--    &lt;!&ndash; Добавил root элемент для вывода в консоль &ndash;&gt;-->
+<!--    <root level="info">-->
+<!--        <appender-ref ref="STDOUT"/>-->
+<!--    </root>-->
 
-</configuration>
+<!--</configuration>-->
