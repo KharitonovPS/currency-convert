@@ -11,10 +11,13 @@ import java.time.Instant;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public void registerUser(Message message) {
         if (userRepository.findById(message.getChatId()).isEmpty()) {

@@ -1,0 +1,27 @@
+#client:
+#  properties:
+#    url: ${CLIENT_PROPERTIES_URL}
+#    key: ${CLIENT_PROPERTIES_KEY}
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: ${SPRING_DATASOURCE_URL}
+#    username: ${SPRING_DATASOURCE_USERNAME}
+#    password: ${SPRING_DATASOURCE_PASSWORD}
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        show_sql: ${JPA_HIBERNATE_SHOW_SQL}
+#        use_sql_comments: false
+#        format_sql: true
+#    hibernate:
+#      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO}
+#  flyway:
+#    validate-on-migrate: false
+#update_service:
+#  fixed_delay: ${UPDATE_SERVICE_FIXED_DELAY}
+#  initial_delay: ${UPDATE_SERVICE_INITIAL_DELAY}
+#tg:
+#  bot_token: ${TG_BOT_TOKEN}
+#  bot_name: ${TG_BOT_NAME}
