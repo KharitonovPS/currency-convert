@@ -44,16 +44,16 @@ jobs:
         distribution: 'oracle'
     - name: build with gradle
       uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-  cleanup:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cleanup
-        run: |
-          gh cache delete --all
-        env:
-          GH_TOKEN: ${{ secrets.OGITHUB_TOKEN }}
-
-
+#  cleanup:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Cleanup
+#        run: |
+#          pwd
+#          ls
+#          gh cache delete --all
+#        env:
+#          GH_TOKEN: ${{ secrets.OGITHUB_TOKEN }}
 
 #  docker:
 #    runs-on: ubuntu-latest
