@@ -1,4 +1,5 @@
 FROM openjdk:21-jdk-oracle
+RUN docker system prune -a
 RUN echo here
 RUN pwd
 RUN ls
