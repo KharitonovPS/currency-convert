@@ -28,7 +28,9 @@ public class AbstractIntegrationServiceTest {
 
             String[] variables = {"spring.jpa.hibernate.ddl-auto=update",
 
-                    "spring.datasource.url=" + POSTGRES.getJdbcUrl(), "spring.datasource.username=" + POSTGRES.getUsername(), "spring.datasource.password=" + POSTGRES.getPassword(),
+                    "spring.datasource.url=" + POSTGRES.getJdbcUrl(),
+                    "spring.datasource.username=" + POSTGRES.getUsername(),
+                    "spring.datasource.password=" + POSTGRES.getPassword(),
 
                     "clients.dictionary-client.host=" + "http://localhost:8080"};
 

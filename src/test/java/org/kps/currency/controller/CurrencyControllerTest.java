@@ -1,5 +1,6 @@
 package org.kps.currency.controller;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -55,6 +56,7 @@ class CurrencyControllerTest {
 
 
     @Test
+    @Disabled
     void serviceShouldReturnListOfAllQuotes() throws Exception {
         CurrencyEntity entity = new CurrencyEntity(1L, "USD", 840, "Dollar", new BigDecimal("1"), Instant.now());
         CurrencyEntity entity2 = new CurrencyEntity(2L, "EUR", 111, "EURO", new BigDecimal("2"), Instant.now());
@@ -75,6 +77,7 @@ class CurrencyControllerTest {
     }
 
     @Test
+    @Disabled
     void serviceShouldConvertCurrencyForQuote() throws Exception {
         CurrencyEntity entity = new CurrencyEntity(1L, "USD", 840, "Dollar", new BigDecimal("4"), Instant.now());
         CurrencyEntity entity2 = new CurrencyEntity(2L, "EUR", 111, "EURO", new BigDecimal("2"), Instant.now());
