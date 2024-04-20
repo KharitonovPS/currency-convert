@@ -75,7 +75,7 @@ jobs:
         run: docker system prune -a -f
   docker:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, prepare-environment]
     steps:
       -
         name: Checkout
