@@ -100,7 +100,6 @@ class CurrencyConverterServiceTest {
         Mockito.when(repo.findAll()).thenReturn(List.of(usdEntity, rubEntity));
 
         var result = converterService.getAllRatesForQuote(dto);
-
         Mockito.verify(repo, Mockito.times(1)).findAll();
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(2, Objects.requireNonNull(result.getBody()).size());
