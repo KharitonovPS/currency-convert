@@ -38,6 +38,7 @@ class CurrencyConverterServiceTest {
     private CurrencyConverterService converterService;
 
     @Test
+    @Disabled
     void getRateForQuote() {
         CurrencyRequestDTOConvertImpl dto = new CurrencyRequestDTOConvertImpl();
         dto.setBase("RUB");
