@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: Cleanup
         run: |
-          pwd && ls -l
+          docker system purne -a
 
   #          gh cache delete --all
 #        env:
@@ -71,7 +71,7 @@ jobs:
 #          password: ${{ secrets.DOCKER_PASSWORD }}
   docker:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, cleanup]
     steps:
       -
         name: Checkout
