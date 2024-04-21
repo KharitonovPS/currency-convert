@@ -49,6 +49,7 @@ jobs:
     steps:
       - name: Cleanup
         run: |
+          
           docker system prune -af
 
   #          gh cache delete --all
