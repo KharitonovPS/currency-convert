@@ -1,4 +1,6 @@
-FROM openjdk:21-jdk-oracle
+#FROM openjdk:21-jdk-oracle
+FROM ubuntu:20.04
+RUN docker system prune
 RUN RUN pwd && ls -l
 
 COPY  build/libs/currency-converter-1.0.0-SNAPSHOT.jar /app/app.jar
