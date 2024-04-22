@@ -59,6 +59,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'oracle'
+      - name: Build with Gradle Wrapper
+        run: ./gradlew clean build
       - name: where am I
         run: pwd && ls -l
       - name: List build/libs directory
