@@ -25,7 +25,7 @@ repositories {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'CurrencyApplication.java'
+                'Main-Class': 'org.kps.currency.CurrencyApplication'
         )
     }
 }
