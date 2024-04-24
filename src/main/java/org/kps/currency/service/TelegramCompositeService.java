@@ -30,7 +30,11 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
     private final TelegramConfig config;
 
     @Autowired
-    public TelegramCompositeService(CurrencyConverterService service, UserService userService, TelegramConfig config) {
+    public TelegramCompositeService(
+            CurrencyConverterService service,
+            UserService userService,
+            TelegramConfig config
+    ) {
         super(config.getBotToken());
         this.service = service;
         this.userService = userService;
@@ -54,18 +58,18 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
                 CallbackQuery callbackQuery = update.getCallbackQuery();
                 String data = callbackQuery.getData();
                 handleCallbackQuery(chatId, data);
-
-
             }
-
 
 
             switch (messageText) {
                 case "/start":
                     userService.registerUser(update.getMessage());
-
-                    startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
-                    log.info("Telegram bot replied to user, {}", update.getMessage().getChat().getFirstName());
+                    String firstName = update.getMessage().getChat().getFirstName();
+                    if (null == firstName) {
+                        firstName = "user";
+                    }
+                    startCommandReceived(chatId, firstName);
+                    log.info("Telegram bot replied to user, {}", firstName);
                     break;
                 case "/help":
                     sendMessage(chatId, HELP_MESSAGE);

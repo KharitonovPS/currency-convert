@@ -20,9 +20,9 @@ public class User {
     private Long chatId;
 
     private String firstName;
+
     private String lasName;
 
-    @Column(unique = true, nullable = false)
     private String userName;
 
     @Column(nullable = false)

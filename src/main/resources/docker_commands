@@ -5,3 +5,6 @@ sudo docker build -t bot-app .
 sudo docker run bot-app
 
 #set up CI/CD on GitHub actions with gradle
+
+#connect to shell in docker container
+docker exec -it <mycontainer id/name> bash
