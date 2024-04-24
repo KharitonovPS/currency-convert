@@ -51,7 +51,8 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
+            Long userChatId = update.getMessage().getChatId();
+            long chatId = userChatId;
 
             if (messageText.contains("/convert")) {
 
@@ -69,7 +70,10 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
                         firstName = "user";
                     }
                     startCommandReceived(chatId, firstName);
-                    log.info("Telegram bot replied to user, {}", firstName);
+                    log.info("Telegram bot replied to user, {}", userChatId);
+                    break;
+                case "/clear personnel data":
+                    sendMessage(chatId, userService.deleteUser(chatId));
                     break;
                 case "/help":
                     sendMessage(chatId, HELP_MESSAGE);
@@ -77,7 +81,7 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
                     break;
                 default:
                     sendMessage(chatId, "Sorry, command not found");
-                    log.info("Telegram default message send");
+                    log.info("Telegram default message reply to chatId {}", userChatId);
             }
 
         }

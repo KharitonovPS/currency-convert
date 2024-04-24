@@ -14,7 +14,7 @@ public class TelegramConstants {
                             
                             Type /start to see the welcome message.
                             
-                            Type /convert to convert currency pair and sum.
+                            Type /convert to convert currency pair.
                             
                             Type /quote to see the quote for 1$ from the requested currency.
                             
