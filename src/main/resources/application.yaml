@@ -25,3 +25,7 @@ update_service:
 tg:
   bot_token: 7060104792:AAHUmMq2AY8UsPKhvHVP-1H4Bm-bRko4Om0
   bot_name: CurrencyBot
+google:
+  application_name: My Project 8196
+  token_directory_path: tokens
+  credentials_file_path: /credentials.json

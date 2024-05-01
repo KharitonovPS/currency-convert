@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -26,19 +25,20 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
 
     private final CurrencyConverterService service;
     private final UserService userService;
-
     private final TelegramConfig config;
+    private final ImageSenderService imageSenderService;
 
     @Autowired
     public TelegramCompositeService(
             CurrencyConverterService service,
             UserService userService,
-            TelegramConfig config
+            TelegramConfig config, ImageSenderService imageSenderService
     ) {
         super(config.getBotToken());
         this.service = service;
         this.userService = userService;
         this.config = config;
+        this.imageSenderService = imageSenderService;
     }
 
     @Override
@@ -48,18 +48,29 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        if (update.hasMessage() && update.getMessage().hasPhoto()) {
+            var optionalImage = update.getMessage().getPhoto();
+            try {
+                String response = imageSenderService.sendImage();
+                //todo send response
+            } catch (Exception e) {
+                log.error(String.format("Error with sending image %s", e.getMessage()), e);
+                //todo: при ошибке отправки сообщения нужно выводить смайлики в чат
+            }
+        }
+
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             Long userChatId = update.getMessage().getChatId();
             long chatId = userChatId;
-
-            if (messageText.contains("/convert")) {
-
-                CallbackQuery callbackQuery = update.getCallbackQuery();
-                String data = callbackQuery.getData();
-                handleCallbackQuery(chatId, data);
-            }
+            //todo переделать без /convert
+//            if (messageText.contains("/convert")) {
+//
+//                CallbackQuery callbackQuery = update.getCallbackQuery();
+//                String data = callbackQuery.getData();
+//                handleCallbackQuery(chatId, data);
+//            }
 
 
             switch (messageText) {
@@ -88,6 +99,7 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
 
     }
 
+    //todo переделать без /convert
     private void handleCallbackQuery(long chatId, String data) {
         String messageToSend = "You clicked on button with data: " + data;
 

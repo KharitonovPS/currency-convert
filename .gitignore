@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 /logs/app.log
+/src/main/resources/client_secret_234900913927-iibtb3l5o0vvam1plitjdnliq5g9qcgp.apps.googleusercontent.com.json
+/tokens/
+/src/main/resources/credentials.json
