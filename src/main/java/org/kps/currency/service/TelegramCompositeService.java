@@ -16,12 +16,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.kps.currency.common.constants.TelegramConstants.HELP_MESSAGE;
-import static org.kps.currency.utils.Utils.changeExtension;
 
 @Slf4j
 @Service
@@ -63,16 +62,12 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
                 String fileId = maxSize.getFileId();
                 GetFile getFile = new GetFile(fileId);
                 String filePath = execute(getFile).getFilePath();
-                File file = downloadFile(filePath);
-                File changed = changeExtension(file, ".jpg");
-
-                String response = imageSenderService.sendImage(changed);
-
+                String response;
+                try (InputStream inputStream = downloadFileAsStream(filePath)) {
+                    response = imageSenderService.sendImage(inputStream);
+                }
                 if (!response.isEmpty()) {
                     sendMessage(chatId, response);
-                }
-                if (file.exists()) {
-                    file.delete();
                 }
             } catch (Exception e) {
                 log.error(String.format("Error with sending image %s", e.getMessage()), e);

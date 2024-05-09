@@ -1,4 +1,4 @@
-package org.kps.currency.utils;
+package org.kps.currency.common.utils;
 
 public class Utils {
     public static java.io.File changeExtension(java.io.File f, String newExtension) {
