@@ -8,16 +8,20 @@ import org.kps.currency.domain.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.kps.currency.common.constants.TelegramConstants.HELP_MESSAGE;
+import static org.kps.currency.utils.Utils.changeExtension;
 
 @Slf4j
 @Service
@@ -48,11 +52,28 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        String messageText = update.getMessage().getText();
+        Long userChatId = update.getMessage().getChatId();
+        long chatId = userChatId;
+
         if (update.hasMessage() && update.getMessage().hasPhoto()) {
             var optionalImage = update.getMessage().getPhoto();
             try {
-                String response = imageSenderService.sendImage();
-                //todo send response
+                PhotoSize maxSize = optionalImage.getLast();
+                String fileId = maxSize.getFileId();
+                GetFile getFile = new GetFile(fileId);
+                String filePath = execute(getFile).getFilePath();
+                File file = downloadFile(filePath);
+                File changed = changeExtension(file, ".jpg");
+
+                String response = imageSenderService.sendImage(changed);
+
+                if (!response.isEmpty()) {
+                    sendMessage(chatId, response);
+                }
+                if (file.exists()) {
+                    file.delete();
+                }
             } catch (Exception e) {
                 log.error(String.format("Error with sending image %s", e.getMessage()), e);
                 //todo: при ошибке отправки сообщения нужно выводить смайлики в чат
@@ -61,9 +82,7 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
 
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String messageText = update.getMessage().getText();
-            Long userChatId = update.getMessage().getChatId();
-            long chatId = userChatId;
+
             //todo переделать без /convert
 //            if (messageText.contains("/convert")) {
 //

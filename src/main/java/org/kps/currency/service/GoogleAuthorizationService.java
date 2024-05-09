@@ -23,11 +23,6 @@ import java.util.List;
 @Service
 public class GoogleAuthorizationService {
     /**
-     * Application name.
-     */
-    @Value("${google.application_name}")
-    private String APPLICATION_NAME;
-    /**
      * Global instance of the JSON factory.
      */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
@@ -42,7 +37,7 @@ public class GoogleAuthorizationService {
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES =
-            Collections.singletonList(DriveScopes.DRIVE);
+            Collections.singletonList("https://www.googleapis.com/auth/drive");
 
     @Value("${google.credentials_file_path}")
     private String CREDENTIALS_FILE_PATH;
