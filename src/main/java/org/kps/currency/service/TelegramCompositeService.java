@@ -84,6 +84,7 @@ public class TelegramCompositeService extends TelegramLongPollingBot {
 //                CallbackQuery callbackQuery = update.getCallbackQuery();
 //                String data = callbackQuery.getData();
 //                handleCallbackQuery(chatId, data);
+
 //            }
 
 
