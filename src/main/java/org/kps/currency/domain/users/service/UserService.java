@@ -1,6 +1,5 @@
 package org.kps.currency.domain.users.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kps.currency.domain.users.entity.User;
 import org.kps.currency.domain.users.repository.UserRepository;
@@ -39,9 +38,10 @@ public class UserService {
             log.info("User already exists: {}", userRepository.findById(message.getChatId()).orElse(null));
         }
     }
-    public String deleteUser(Long chatId){
+
+    public String deleteUser(Long chatId) {
         Optional<User> optionalUser = userRepository.findByChatId(chatId);
-        if (optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             userRepository.deleteById(optionalUser.get().getChatId());
             log.info("user with {} was deleted", chatId);
             return "Your personnel data was deleted";

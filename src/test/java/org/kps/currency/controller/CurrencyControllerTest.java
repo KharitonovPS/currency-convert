@@ -4,15 +4,14 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.kps.currency.common.validation.CodeISOValidator;
 import org.kps.currency.domain.currency.entity.CurrencyEntity;
 import org.kps.currency.domain.currency.repository.CurrencyRepo;
-import org.kps.currency.common.validation.CodeISOValidator;
 import org.kps.currency.domain.users.repository.UserRepository;
 import org.kps.currency.domain.users.service.UserService;
 import org.kps.currency.web.controller.CurrencyController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -36,7 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Tag("controller")
 @WebMvcTest(CurrencyController.class)
 @Import({CodeISOValidator.class, CurrencyRepo.class})
-@RunWith(SpringRunner.class)@ComponentScan(basePackages = {"org.kps.currency", "org.kps.currency.controller"})
+@RunWith(SpringRunner.class)
+@ComponentScan(basePackages = {"org.kps.currency", "org.kps.currency.controller"})
 class CurrencyControllerTest {
 
     @Autowired

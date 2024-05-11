@@ -4,16 +4,16 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
-import org.kps.currency.web.client.CurrencyClientImpl;
-import org.kps.currency.web.client.CurrencyClientTestImpl;
-import org.kps.currency.domain.currency.entity.CurrencyEntity;
 import org.kps.currency.domain.currency.dto.CurrencyRequestDTOConvertImpl;
 import org.kps.currency.domain.currency.dto.CurrencyRequestDTOGetListImpl;
 import org.kps.currency.domain.currency.dto.CurrencyResponseDTO;
+import org.kps.currency.domain.currency.entity.CurrencyEntity;
 import org.kps.currency.domain.currency.repository.CurrencyRepo;
 import org.kps.currency.domain.currency.service.CurrencyConverterService;
 import org.kps.currency.service.SchemaInitService;
 import org.kps.currency.service.SchemaUpdateService;
+import org.kps.currency.web.client.CurrencyClientImpl;
+import org.kps.currency.web.client.CurrencyClientTestImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -83,7 +83,7 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
     @Nested
     @DisplayName("Test custom query functionality")
     @Tag("repository")
-    class RepositoryTests{
+    class RepositoryTests {
         @Test
         void initializeRepo() {
             List<CurrencyEntity> all = repo.findAll();
@@ -123,11 +123,10 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
     }
 
 
-
     @Nested
     @DisplayName("Test currency controller functionality")
     @Tag("controller")
-    class ControllerTests{
+    class ControllerTests {
         @Test
         void shouldGetListOfCurrencyFromController() {
             CurrencyRequestDTOGetListImpl dto = new CurrencyRequestDTOGetListImpl();
