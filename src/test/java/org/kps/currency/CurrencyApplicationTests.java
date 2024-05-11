@@ -10,6 +10,7 @@ import org.kps.currency.domain.currency.dto.CurrencyResponseDTO;
 import org.kps.currency.domain.currency.entity.CurrencyEntity;
 import org.kps.currency.domain.currency.repository.CurrencyRepo;
 import org.kps.currency.domain.currency.service.CurrencyConverterService;
+import org.kps.currency.service.GoogleAuthorizationService;
 import org.kps.currency.service.SchemaInitService;
 import org.kps.currency.service.SchemaUpdateService;
 import org.kps.currency.web.client.CurrencyClientImpl;
@@ -55,6 +56,8 @@ class CurrencyApplicationTests extends AbstractIntegrationServiceTest {
 
     @MockBean
     SchemaInitService initService;
+    @MockBean
+    GoogleAuthorizationService authorizationService;
 
     private static final CurrencyEntity USD = new CurrencyEntity(1L, "USD", 840,
             "US Dollar", new BigDecimal("1.0952002800"), Instant.now());
