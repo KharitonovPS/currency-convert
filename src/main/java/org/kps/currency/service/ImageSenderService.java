@@ -12,6 +12,7 @@ import com.google.api.services.drive.model.FileList;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
-@Service
+@Component
 public class ImageSenderService {
 
     @Value("${google.application_name}")
@@ -39,11 +40,13 @@ public class ImageSenderService {
     @PostConstruct
     void init() {
         try {
+            log.info("Start to initialize SUBFOLDERS_IDS_MAP...");
             FileList execute = drive.files().list().setQ(
                     "mimeType = 'application/vnd.google-apps.folder' and trashed = false"
             ).execute();
             List<File> files = execute.getFiles();
             files.forEach(f -> SUBFOLDERS_IDS_MAP.put(f.getName(), f.getId()));
+            log.info("Complete successfully {}", SUBFOLDERS_IDS_MAP);
         } catch (IOException e) {
             log.error("Can`t initialize subfoldersIdsMap", e);
             throw new RuntimeException(e);
