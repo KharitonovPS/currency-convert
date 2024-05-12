@@ -1,28 +1,3 @@
-client:
-  properties:
-    url: https://openexchangerates.org/api/latest.json?
-    key: app_id=b4929433319542b1840bcde2b888ad09
-spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://109.120.134.156:5432/test
-    #    url: jdbc:postgresql://109.120.134.156:5432/postgres
-    username: pg
-    password: 123
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        show_sql: false
-        use_sql_comments: false
-        format_sql: true
-    hibernate:
-      ddl-auto: update
-  flyway:
-    validate-on-migrate: false
-update_service:
-  fixed_delay: 3600000
-  initial_delay: 120000
 tg:
   bot_token: 7060104792:AAHUmMq2AY8UsPKhvHVP-1H4Bm-bRko4Om0
   bot_name: CurrencyBot
