@@ -13,7 +13,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +28,7 @@ import java.util.List;
 public class ImageSenderService {
 
     @Value("${google.application_name}")
-    private String APPLICATION_NAME;
+    private String applicationName;
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
     @Value("${google.family_directory_id}")
@@ -54,12 +53,12 @@ public class ImageSenderService {
     }
 
     public ImageSenderService(GoogleAuthorizationService authorizationService) throws GeneralSecurityException, IOException {
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         drive = new Drive.Builder(
-                HTTP_TRANSPORT,
+                httpTransport,
                 JSON_FACTORY,
-                authorizationService.getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
+                authorizationService.getCredentials(httpTransport))
+                .setApplicationName(applicationName)
                 .build();
     }
 
@@ -112,7 +111,6 @@ public class ImageSenderService {
 
     private static String generateSubfolderName() {
         LocalDate date = LocalDate.now();
-        var subFolderName = date.getMonth() + " " + date.getYear();
-        return subFolderName;
+        return date.getMonth() + " " + date.getYear();
     }
 }
