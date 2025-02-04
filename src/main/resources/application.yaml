@@ -1,8 +1,32 @@
+client:
+  properties:
+    url: ${CLIENT_PROPERTIES_URL}
+    key: ${CLIENT_PROPERTIES_KEY}
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: ${JPA_HIBERNATE_SHOW_SQL}
+        use_sql_comments: false
+        format_sql: true
+    hibernate:
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO}
+  flyway:
+    validate-on-migrate: false
+update_service:
+  fixed_delay: ${UPDATE_SERVICE_FIXED_DELAY}
+  initial_delay: ${UPDATE_SERVICE_INITIAL_DELAY}
 tg:
-  bot_token: 7060104792:AAHUmMq2AY8UsPKhvHVP-1H4Bm-bRko4Om0
-  bot_name: CurrencyBot
+  bot_token: ${TG_BOT_TOKEN}
+  bot_name: ${TG_BOT_NAME}
 google:
   application_name: My Project 8196
   token_directory_path: tokens
-  credentials_file_path: /credentials.json
-  family_directory_id: 1cHnMg8C6-RRHD2L8xKUvaEqTSsyt5dOu
+  credentials_file_path: /resources/credentials.json
+  family_directory_id: ${GOOGLE_DIR_ID}
