@@ -45,3 +45,5 @@ out/
 /src/main/resources/docker_commands
 /src/main/resources/service_key.json
 /tokens/*
+/Deploy/app.env
+/compose.yaml
