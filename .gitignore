@@ -40,3 +40,8 @@ out/
 #/tokens/
 #/src/main/resources/credentials.json
 /pg_data3/
+/src/main/resources/application-local.yaml
+/src/main/resources/credentials.json
+/src/main/resources/docker_commands
+/src/main/resources/service_key.json
+/tokens/*
